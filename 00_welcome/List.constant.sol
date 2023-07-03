@@ -8,10 +8,6 @@ contract List is Exercise {
     uint256[] public list;
 
     function push(uint256 _value) external {
-
-
-
-
         require(indexOf(_value) == -1, "duplicate");
         list.push(_value);
     }
