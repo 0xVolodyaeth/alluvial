@@ -13,7 +13,7 @@ contract Setup is Script {
 
         uint256 counter;
 
-        for (uint256 idx; idx < randomness.length;) {
+        for (uint256 idx; idx < randomness.length; ) {
             uint8 impl = uint8(randomness[idx]) % 5;
 
             if (impl == 0) {
@@ -35,7 +35,9 @@ contract Setup is Script {
                 Exercise(address(exercise)).setCounter(address(new Override()));
 
                 exercise.inc();
-                counter = uint256(keccak256(abi.encodePacked(address(exercise))));
+                counter = uint256(
+                    keccak256(abi.encodePacked(address(exercise)))
+                );
             } else if (impl == 3) {
                 Exercise(address(exercise)).setCounter(address(new Mul()));
 
@@ -57,10 +59,12 @@ contract Setup is Script {
             }
         }
 
-        (bool ok, bytes memory data) = address(exercise).staticcall(abi.encodeWithSignature("counter()"));
+        (bool ok, bytes memory data) = address(exercise).staticcall(
+            abi.encodeWithSignature("counter()")
+        );
         require(ok, "02");
         require(data.length == 32, "03");
-        (uint256 _counter) = abi.decode(data, (uint256));
+        uint256 _counter = abi.decode(data, (uint256));
         require(_counter == counter, "04");
     }
 }
