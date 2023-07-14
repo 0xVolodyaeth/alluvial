@@ -14,8 +14,8 @@ contract Setup is Script {
         Exercise exercise = new Exercise();
         exercise.setDepositContract(address(dc));
 
-        (bytes memory publicKey, bytes memory signature, address withdrawal) = exercise.getValues();
-
+        // TODO: changed this line because withdrawal address cannot be assigned to address type even in the eth2.0 deposit contact
+        (bytes memory publicKey, bytes memory signature, bytes memory withdrawal) = exercise.getValues();
         require(publicKey.length == 48, "01");
 
         exercise.deposit{value: 32 ether}(publicKey, signature, withdrawal);
